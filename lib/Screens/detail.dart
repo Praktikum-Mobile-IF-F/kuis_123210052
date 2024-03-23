@@ -121,7 +121,6 @@ class _DetailPageState extends State<DetailPage> {
                         child: ListTile(
                           title: Text(
                             widget.topAlbum.songs[index],
-                            style: const TextStyle(backgroundColor: Colors.purple),
                           ),
                         ),
                       ),
