@@ -39,18 +39,6 @@ class _DetailPageState extends State<DetailPage> {
             SizedBox(
               height: 200,
               child: Image.network(widget.topAlbum.imageUrls),
-              // child: ListView.builder(
-              //   itemCount: widget.topAlbum.imageUrls.length,
-              //   itemBuilder: (context, index){
-              //     return Padding(
-              //       padding: EdgeInsets.all(8.0),
-              //       child: Image.network(
-              //         widget.topAlbum.imageUrls[index],
-              //         fit: BoxFit.cover,
-              //       ),
-              //     );
-              //   },
-              // ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -72,6 +60,7 @@ class _DetailPageState extends State<DetailPage> {
                     style: const TextStyle(fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 2.0, horizontal: 3.0),
@@ -84,7 +73,7 @@ class _DetailPageState extends State<DetailPage> {
                             const SizedBox(width: 2),
                             Text(
                                 widget.topAlbum.releaseDate,
-                                style: TextStyle(fontSize: 10),
+                                style: const TextStyle(fontSize: 10),
                             )
                           ],
                         ),
@@ -94,7 +83,7 @@ class _DetailPageState extends State<DetailPage> {
                             const SizedBox(width: 2),
                             Text(
                                 widget.topAlbum.source,
-                                style: TextStyle(fontSize: 10),
+                                style: const TextStyle(fontSize: 10),
                             )
                           ],
                         ),
@@ -132,7 +121,7 @@ class _DetailPageState extends State<DetailPage> {
                         child: ListTile(
                           title: Text(
                             widget.topAlbum.songs[index],
-                            // style: const TextStyle(color: Colors.white),
+                            style: const TextStyle(backgroundColor: Colors.purple),
                           ),
                         ),
                       ),

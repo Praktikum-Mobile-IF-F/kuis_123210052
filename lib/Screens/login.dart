@@ -1,119 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:kuis_123210052/Screens/homepage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage ({Key? key}) : super(key: key);
-
+class LoginPage extends StatelessWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
+      body: LoginForm(),
+    );
+  }
 }
 
-class _LoginPageState extends State<LoginPage> {
-  String username = "";
-  String password = "";
-  bool isLoginSuccess = true;
+class LoginForm extends StatefulWidget {
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  String? _email;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Login'),
-        ),
-        body: Column(
-          children: [
-            _usernameField(),
-            _passwordField(),
-            _loginButton(context),
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Email'),
+              validator: (value) {
+                if (value == null || !value.contains('@')) {
+                  return 'Email harus mengandung @';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _email = value;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              validator: (value) {
+                if (value == null || value.length < 8) {
+                  return 'Password harus lebih dari 8 karakter';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _password = value;
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  }
+
+                },
+                child: Text('Login'),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
-  Widget _usernameField(){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: TextFormField(
-        enabled: true,
-        onChanged: (value) {
-          username = value;
-        },
-        decoration: InputDecoration(
-          hintText: 'Email',
-          contentPadding: const EdgeInsets.all(8.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Colors.blue),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: (isLoginSuccess)? Colors.blue : Colors.red),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _passwordField(){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: TextFormField(
-        enabled: true,
-        onChanged: (value) {
-          password = value;
-        },
-        obscureText: true,
-        decoration: const InputDecoration(
-          hintText: 'Password',
-          contentPadding: const EdgeInsets.all(8.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Colors.blue),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _loginButton(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
-      width: MediaQuery.of(context).size.width,
-      child: ElevatedButton(
-        // style: ElevatedButton.styleFrom(
-        //   backgroundColor: (isLoginSuccess) ? Colors.blue : Colors.red,
-        //   onPrimary: Colors.white,
-        // ),
-        onPressed: () {
-          String text = "";
-          setState(() {
-            text = "Login Success!";
-            isLoginSuccess = true;
-          });
-          if (username == "farras" && password == "farras") {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-
-          } else {
-            setState(() {
-              text = "Login Failed!";
-              isLoginSuccess = false;
-            });
-          }
-
-          SnackBar snackBar = SnackBar(
-            content: Text(text),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-        child: const Text('Login'),
-      ),
-    );
-  }
 }
-
